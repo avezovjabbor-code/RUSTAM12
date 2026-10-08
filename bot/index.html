@@ -1,0 +1,673 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+  <title>FC Mobile 25 Online | Bepul Futbol O'yini</title>
+  <meta name="description" content="FC Mobile 25 Online - Bepul futbol o'yini. Paketlar ochish, afsonaviy o'yinchilar, tarkib tuzish, penaltilar seriyasi va jonli H2H o'yinlar!">
+  <meta name="theme-color" content="#080b11">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><circle cx='50' cy='50' r='48' fill='%23080b11' stroke='%2300ff85' stroke-width='4'/><polygon points='50,15 80,75 20,75' fill='%2300ff85'/><text x='50' y='65' font-size='24' font-weight='900' fill='%23080b11' text-anchor='middle'>FC</text></svg>">
+  <link rel="manifest" href="manifest.json">
+  <!-- Google Fonts: Outfit & Orbitron & Rajdhani -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=Rajdhani:wght@600;700;800&family=Teko:wght@600;700&display=swap" rel="stylesheet">
+  <!-- Telegram Web App SDK (optional auto-detected) -->
+  <script src="https://telegram.org/js/telegram-web-app.js"></script>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body class="theme-dark">
+  <div id="app" class="app-container">
+    
+    <!-- Top Header Bar -->
+    <header class="app-header">
+      <div class="header-brand">
+        <div class="logo-badge">
+          <span class="logo-fc">FC</span>
+          <span class="logo-mobile">MOBILE</span>
+        </div>
+        <div class="live-pill">
+          <span class="pulse-dot"></span>
+          <span class="pill-text">ONLINE</span>
+        </div>
+      </div>
+
+      <!-- Resource Currencies (Coins & FC Points) -->
+      <div class="header-resources">
+        <div class="resource-badge coins-badge" id="btn-free-coins" title="Bepul tangalar olish">
+          <div class="coin-icon">🪙</div>
+          <span class="resource-value" id="res-coins">1,000,000</span>
+          <button class="plus-btn" aria-label="Tangalarni to'ldirish">+</button>
+        </div>
+
+        <div class="resource-badge fp-badge" id="btn-free-fp" title="Bepul FC Points olish">
+          <div class="fp-icon">💎</div>
+          <span class="resource-value" id="res-fp">10,000</span>
+          <button class="plus-btn" aria-label="FP to'ldirish">+</button>
+        </div>
+
+        <!-- Audio & Settings -->
+        <button id="btn-sound-toggle" class="icon-action-btn" title="Ovozni yoqish/o'chirish" aria-label="Ovoz">
+          <span id="sound-icon">🔊</span>
+        </button>
+      </div>
+    </header>
+
+    <!-- Main Viewport Area -->
+    <main class="main-content" id="main-content">
+      
+      <!-- 1. BOSH SAHIFA (HOME / DASHBOARD) -->
+      <section id="view-home" class="view-section active">
+        <!-- Hero Banner: EA FC 25 TOTY Event -->
+        <div class="hero-banner">
+          <div class="hero-glow"></div>
+          <div class="hero-content">
+            <span class="hero-tag">🔥 ENG SO'NGGI MAVSUM 2025</span>
+            <h1 class="hero-title">TEAM OF THE YEAR & AFSONALAR</h1>
+            <p class="hero-subtitle">100% BEPUL! Mbappé, Messi, Ronaldo va O'zbekiston yulduzlari tarkibingizda!</p>
+            <div class="hero-actions">
+              <button class="btn btn-primary" id="hero-open-pack">
+                <span>⚡ BEPUL TOTY PAKETINI OCHISH</span>
+              </button>
+              <button class="btn btn-secondary" id="hero-goto-match">
+                <span>⚽ HUJUM REJIMI (VS ATTACK)</span>
+              </button>
+            </div>
+          </div>
+          <div class="hero-featured-card">
+            <div class="card-teaser" id="teaser-card-preview">
+              <!-- Dynamically populated top player teaser -->
+            </div>
+          </div>
+        </div>
+
+        <!-- Quick Access Widgets Grid -->
+        <div class="dashboard-grid">
+          <!-- Widget: Mening Jamoam OVR Preview -->
+          <div class="dash-card team-preview-card" id="dash-my-team-btn">
+            <div class="dash-card-header">
+              <span class="dash-icon">🛡️</span>
+              <span class="dash-title">MENING ASOSIY TARKIBIM</span>
+              <span class="dash-badge" id="dash-formation">4-3-3</span>
+            </div>
+            <div class="team-ovr-display">
+              <div class="ovr-circle">
+                <span class="ovr-num" id="dash-ovr">98</span>
+                <span class="ovr-lbl">OVR</span>
+              </div>
+              <div class="team-stats-summary">
+                <div class="stat-row">
+                  <span>Kimyo (Chemistry):</span>
+                  <strong id="dash-chem">100 / 100</strong>
+                </div>
+                <div class="stat-row">
+                  <span>O'yinchilar:</span>
+                  <strong id="dash-player-count">11 / 11</strong>
+                </div>
+                <div class="stat-row">
+                  <span>Tarkib qiymati:</span>
+                  <strong id="dash-squad-value">🪙 4.5M</strong>
+                </div>
+              </div>
+            </div>
+            <button class="dash-footer-btn">Tarkibni boshqarish →</button>
+          </div>
+
+          <!-- Widget: Omad Charxpalagi (Lucky Spin) -->
+          <div class="dash-card lucky-spin-card" id="dash-spin-btn">
+            <div class="dash-card-header">
+              <span class="dash-icon">🎡</span>
+              <span class="dash-title">OMAD CHARXPALAGI</span>
+              <span class="dash-badge badge-free">BEPUL AYLANISH</span>
+            </div>
+            <p class="dash-desc">Har kuni aylantiring va 101+ Icon yoki millionlab tanga yutib oling!</p>
+            <div class="wheel-mini-preview">
+              <div class="mini-spinner">🎯</div>
+              <button class="btn btn-accent btn-sm">Aylantirish va Yutish</button>
+            </div>
+          </div>
+
+          <!-- Widget: Bepul Tangalar & Quests -->
+          <div class="dash-card quests-card" id="dash-quests-btn">
+            <div class="dash-card-header">
+              <span class="dash-icon">🏆</span>
+              <span class="dash-title">KUNDALIK VAZIFALAR</span>
+              <span class="dash-badge badge-gold" id="quests-badge">3 TAYYOR</span>
+            </div>
+            <div class="quests-preview-list" id="mini-quests-list">
+              <!-- Dynamically populated mini quest list -->
+            </div>
+            <button class="dash-footer-btn">Mukofotlarni olish →</button>
+          </div>
+
+          <!-- Widget: Bepul Cheksiz Valyuta Banki -->
+          <div class="dash-card free-bank-card">
+            <div class="dash-card-header">
+              <span class="dash-icon">🎁</span>
+              <span class="dash-title">BEPUL VALYUTA BANKI</span>
+              <span class="dash-badge badge-green">100% BEPUL</span>
+            </div>
+            <p class="dash-desc">Hech qanday to'lov yo'q! Istalgan vaqtda balansni bepul to'ldiring:</p>
+            <div class="bank-actions">
+              <button class="btn btn-gold btn-sm" id="btn-quick-coins">
+                🪙 +1,000,000 Oltin
+              </button>
+              <button class="btn btn-cyan btn-sm" id="btn-quick-fp">
+                💎 +10,000 FP
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Featured Players Showcase -->
+        <div class="section-title-wrap">
+          <h2>🌟 HAFTANING ENG YAXSHI YULDUZLARI</h2>
+          <span class="subtitle-text">Barcha kartalar bepul paketlarda mavjud</span>
+        </div>
+        <div class="showcase-carousel" id="featured-players-carousel">
+          <!-- Populated by JS -->
+        </div>
+      </section>
+
+      <!-- 2. MENING JAMOM (MY SQUAD / PITCH) -->
+      <section id="view-squad" class="view-section">
+        <div class="squad-header-bar">
+          <div class="squad-meta">
+            <div class="formation-selector-wrap">
+              <label for="formation-select">Taktika:</label>
+              <select id="formation-select" class="custom-select">
+                <option value="4-3-3">4-3-3 (Hujumkor)</option>
+                <option value="4-4-2">4-4-2 (Klassik)</option>
+                <option value="3-5-2">3-5-2 (Yarim himoya ustunligi)</option>
+                <option value="4-2-3-1">4-2-3-1 (Zamonaviy)</option>
+              </select>
+            </div>
+            <div class="squad-ovr-pill">
+              <span>JAMOAVIY REYTING:</span>
+              <strong id="pitch-team-ovr">98</strong>
+            </div>
+            <div class="squad-chem-pill">
+              <span>KIMYO:</span>
+              <strong id="pitch-team-chem">100</strong>
+            </div>
+          </div>
+          <div class="squad-actions-bar">
+            <button class="btn btn-sm btn-accent" id="btn-auto-squad" title="Eng yuqori OVR li o'yinchilarni avtomatik joylashtirish">
+              ⚡ Eng Kuchli Tarkib
+            </button>
+            <button class="btn btn-sm btn-secondary" id="btn-clear-squad" title="Tarkibni tozalash">
+              🔄 Tozalash
+            </button>
+          </div>
+        </div>
+
+        <!-- Interactive 3D Soccer Pitch -->
+        <div class="pitch-container">
+          <div class="soccer-pitch" id="soccer-pitch">
+            <!-- Field Markings -->
+            <div class="pitch-line center-line"></div>
+            <div class="pitch-line center-circle"></div>
+            <div class="pitch-line penalty-box penalty-top"></div>
+            <div class="pitch-line penalty-box penalty-bottom"></div>
+            <div class="pitch-line penalty-arc arc-top"></div>
+            <div class="pitch-line penalty-arc arc-bottom"></div>
+            <div class="pitch-line goal-line-top"></div>
+            <div class="pitch-line goal-line-bottom"></div>
+
+            <!-- Pitch Positions Grid (Slots placed dynamically or via CSS) -->
+            <div class="pitch-slots" id="pitch-slots-container">
+              <!-- Rendered dynamically according to selected formation -->
+            </div>
+          </div>
+        </div>
+
+        <!-- Bench / Club Substitutes Drawer -->
+        <div class="bench-section">
+          <div class="bench-header">
+            <h3>🪑 ZAXIRA VA KLUB O'YINCHILARI (<span id="bench-count">0</span>)</h3>
+            <span class="bench-tip">O'yinchini tarkibga qo'yish uchun slot ustiga bosing</span>
+          </div>
+          <div class="bench-cards-list" id="bench-cards-list">
+            <!-- Bench cards -->
+          </div>
+        </div>
+      </section>
+
+      <!-- 3. PAKETLAR (PACKS & GACHA) -->
+      <section id="view-packs" class="view-section">
+        <div class="section-title-wrap">
+          <h2>📦 CHEKSIZ BEPUL PAKETLAR DO'KONI</h2>
+          <span class="subtitle-text">Hech qanday cheklovsiz oching — barcha TOTY va Icon kartalar bepul!</span>
+        </div>
+
+        <div class="packs-grid">
+          <!-- Pack 1: TOTY 2025 Pack -->
+          <div class="pack-card pack-toty" data-pack="toty">
+            <div class="pack-foil"></div>
+            <div class="pack-badge">TOP MAVSUM</div>
+            <div class="pack-art">
+              <div class="pack-icon">🏆</div>
+              <div class="pack-rating">98-102 OVR</div>
+            </div>
+            <h3 class="pack-name">TOTY 2025 ULTIMATE</h3>
+            <p class="pack-desc">Mbappé, Haaland, Bellingham, Vinicius Jr va dunyoning eng yaxshilari!</p>
+            <div class="pack-cost">
+              <span class="price-val">Bepul (0 FP)</span>
+            </div>
+            <button class="btn btn-primary btn-pack-open" data-pack-id="toty">
+              <span>OCHISH (BEPUL)</span>
+            </button>
+          </div>
+
+          <!-- Pack 2: Afsonalar (Prime Icons) -->
+          <div class="pack-card pack-icons" data-pack="icons">
+            <div class="pack-foil"></div>
+            <div class="pack-badge">AFSONALAR</div>
+            <div class="pack-art">
+              <div class="pack-icon">👑</div>
+              <div class="pack-rating">99-102 OVR</div>
+            </div>
+            <h3 class="pack-name">PRIME AFSONALAR</h3>
+            <p class="pack-desc">Pelé, Maradona, Zidane, Ronaldinho, Maldini va buyuk afsonalar!</p>
+            <div class="pack-cost">
+              <span class="price-val">Bepul (0 FP)</span>
+            </div>
+            <button class="btn btn-gold btn-pack-open" data-pack-id="icons">
+              <span>OCHISH (BEPUL)</span>
+            </button>
+          </div>
+
+          <!-- Pack 3: O'zbekiston Yulduzlari (Uzbekistan Stars) -->
+          <div class="pack-card pack-uzb" data-pack="uzb">
+            <div class="pack-foil"></div>
+            <div class="pack-badge">O'ZBEKISTON 🇺🇿</div>
+            <div class="pack-art">
+              <div class="pack-icon">⭐</div>
+              <div class="pack-rating">93-98 OVR</div>
+            </div>
+            <h3 class="pack-name">O'ZBEKISTON YULDUZLARI</h3>
+            <p class="pack-desc">Shomurodov, Fayzullaev, Masharipov, Khusanov, Yusupov, O'runov!</p>
+            <div class="pack-cost">
+              <span class="price-val">Bepul (0 FP)</span>
+            </div>
+            <button class="btn btn-accent btn-pack-open" data-pack-id="uzb">
+              <span>OCHISH (BEPUL)</span>
+            </button>
+          </div>
+
+          <!-- Pack 4: Mega Yulduzlar Paketi -->
+          <div class="pack-card pack-mega" data-pack="mega">
+            <div class="pack-foil"></div>
+            <div class="pack-badge">MEGA MULTI</div>
+            <div class="pack-art">
+              <div class="pack-icon">⚡</div>
+              <div class="pack-rating">3x O'YINCHI</div>
+            </div>
+            <h3 class="pack-name">3X MEGA OLTIN PAKET</h3>
+            <p class="pack-desc">Bir vaqtning o'zida 3 ta kuchli elita o'yinchi tushadi!</p>
+            <div class="pack-cost">
+              <span class="price-val">Bepul (0 FP)</span>
+            </div>
+            <button class="btn btn-cyan btn-pack-open" data-pack-id="mega">
+              <span>OCHISH (BEPUL)</span>
+            </button>
+          </div>
+        </div>
+      </section>
+
+      <!-- 4. O'YINLAR (GAME MODES) -->
+      <section id="view-matches" class="view-section">
+        <div class="section-title-wrap">
+          <h2>🎮 O'YIN REJIMLARI (ONLINE SIMULATOR)</h2>
+          <span class="subtitle-text">Tarkibingiz bilan maydonga tushing, sovrinlar va tangalar yuting!</span>
+        </div>
+
+        <div class="game-modes-grid">
+          <!-- Game 1: Penaltilar Seriyasi (Penalty Shootout Canvas Game) -->
+          <div class="mode-card" id="mode-penalty-card">
+            <div class="mode-badge">INTERAKTIV O'YIN</div>
+            <div class="mode-icon">🥅</div>
+            <h3>PENALTILAR SERIYASI</h3>
+            <p>Darvozani nishonga oling yoki darvozabon bo'lib zarbalarni qaytaring! 5 ta zarbadan iborat hayajonli duel.</p>
+            <ul class="mode-features">
+              <li>🎯 Sichqoncha yoki barmoq bilan nishonga olish</li>
+              <li>🧤 Jonli darvozabon animatsiyasi</li>
+              <li>💰 G'olibga 150,000 tanga mukofot</li>
+            </ul>
+            <button class="btn btn-primary" id="btn-start-penalty">
+              <span>Hozir O'ynash</span>
+            </button>
+          </div>
+
+          <!-- Game 2: VS Attack (Hujum Rejimi) -->
+          <div class="mode-card" id="mode-vsattack-card">
+            <div class="mode-badge">TEZKOR HUJUM</div>
+            <div class="mode-icon">⚡</div>
+            <h3>VS HUJUM (VS ATTACK)</h3>
+            <p>45 soniya ichida eng ko'p gol uring! Ketma-ket hujum vaziyatlari, zarbalar va real vaqtdagi raqobat.</p>
+            <ul class="mode-features">
+              <li>⏱️ 45 soniyalik dinamik o'yin</li>
+              <li>🔥 Ajoyib va yaxshi imkoniyatlar</li>
+              <li>🏆 250,000 tanga va XP mukofoti</li>
+            </ul>
+            <button class="btn btn-accent" id="btn-start-vsattack">
+              <span>Hujumga O'tish</span>
+            </button>
+          </div>
+
+          <!-- Game 3: H2H Jonli Match Simulyatori -->
+          <div class="mode-card" id="mode-h2h-card">
+            <div class="mode-badge">TO'LIQ O'YIN</div>
+            <div class="mode-icon">🏟️</div>
+            <h3>H2H JONLI UCHRASHUV</h3>
+            <p>90 daqiqalik to'liq simulyatsiya. Taktikani o'zgartiring, o'zbek tilidagi jonli sharh va statistika!</p>
+            <ul class="mode-features">
+              <li>🎙️ O'zbek tilidagi jonli matnli sharh</li>
+              <li>📊 To'p nazorati, zarbalar, kartochkalar</li>
+              <li>🥇 500,000 tanga va afsonaviy kubok</li>
+            </ul>
+            <button class="btn btn-gold" id="btn-start-h2h">
+              <span>Uchrashuvni Boshlash</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Active Mini-Game Containers (Hidden by default, shown when selected) -->
+        
+        <!-- PENALTY SHOOTOUT GAME ARENA -->
+        <div id="penalty-arena" class="game-arena-overlay hidden">
+          <div class="arena-header">
+            <div class="arena-title">
+              <span class="arena-icon">🥅</span>
+              <h3>PENALTILAR SERIYASI</h3>
+            </div>
+            <div class="penalty-scoreboard">
+              <div class="team-score">
+                <span class="t-name">SIZ</span>
+                <span class="t-pts" id="pen-user-score">0</span>
+                <div class="shots-dots" id="pen-user-dots"></div>
+              </div>
+              <div class="vs-divider">VS</div>
+              <div class="team-score">
+                <span class="t-name">RAQIB</span>
+                <span class="t-pts" id="pen-ai-score">0</span>
+                <div class="shots-dots" id="pen-ai-dots"></div>
+              </div>
+            </div>
+            <button class="btn-close-arena" id="btn-close-penalty">✕ Chiqish</button>
+          </div>
+
+          <div class="penalty-stage">
+            <div class="stadium-stand">
+              <div class="goal-posts" id="goal-frame">
+                <div class="goal-crossbar"></div>
+                <div class="goal-net"></div>
+                <!-- Goalkeeper Model -->
+                <div class="goalkeeper" id="gk-avatar">
+                  <div class="gk-body">🧤</div>
+                </div>
+                <!-- Interactive Target Zones -->
+                <div class="target-grid" id="target-grid">
+                  <button class="target-zone" data-pos="tl" title="Chap yuqori burchak"></button>
+                  <button class="target-zone" data-pos="tc" title="O'rta yuqori"></button>
+                  <button class="target-zone" data-pos="tr" title="O'ng yuqori burchak"></button>
+                  <button class="target-zone" data-pos="bl" title="Chap pastki burchak"></button>
+                  <button class="target-zone" data-pos="bc" title="Markaz past"></button>
+                  <button class="target-zone" data-pos="br" title="O'ng pastki burchak"></button>
+                </div>
+              </div>
+            </div>
+
+            <!-- Soccer Ball on Spot -->
+            <div class="penalty-spot">
+              <div class="soccer-ball" id="penalty-ball">⚽</div>
+            </div>
+
+            <div class="penalty-controls">
+              <p class="penalty-instruction" id="pen-instruction">Darvozaning istalgan burchagini tanlang va zarba bering!</p>
+              <div class="penalty-status-toast" id="pen-status-toast"></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- VS ATTACK GAME ARENA -->
+        <div id="vsattack-arena" class="game-arena-overlay hidden">
+          <div class="arena-header">
+            <div class="arena-title">
+              <span class="arena-icon">⚡</span>
+              <h3>VS HUJUM (45s)</h3>
+            </div>
+            <div class="vsattack-timer" id="vsa-timer">⏱️ 00:45</div>
+            <div class="vsattack-scoreboard">
+              <div class="vsa-team user-team">
+                <span class="vsa-lbl">SIZ</span>
+                <span class="vsa-pts" id="vsa-user-score">0</span>
+              </div>
+              <div class="vsa-vs">VS</div>
+              <div class="vsa-team ai-team">
+                <span class="vsa-pts" id="vsa-ai-score">0</span>
+                <span class="vsa-lbl">REAL MADRID</span>
+              </div>
+            </div>
+            <button class="btn-close-arena" id="btn-close-vsattack">✕ Chiqish</button>
+          </div>
+
+          <div class="vsattack-stage">
+            <div class="vsa-chance-banner" id="vsa-chance-text">🔥 Ajoyib Imkoniyat (1 ga 1)</div>
+            
+            <div class="vsa-pitch-view" id="vsa-pitch-view">
+              <div class="vsa-goal">
+                <div class="vsa-gk" id="vsa-gk">🧤 Courtois</div>
+              </div>
+              <div class="vsa-attacker" id="vsa-attacker">
+                🏃 <span id="vsa-striker-name">Mbappé</span>
+              </div>
+              <div class="vsa-ball" id="vsa-ball">⚽</div>
+            </div>
+
+            <div class="vsa-actions">
+              <button class="btn btn-primary vsa-act-btn" id="btn-vsa-power-shot">
+                🚀 Kuchli Zarba
+              </button>
+              <button class="btn btn-accent vsa-act-btn" id="btn-vsa-curl-shot">
+                🎯 Aylanma Zarba
+              </button>
+              <button class="btn btn-gold vsa-act-btn" id="btn-vsa-chip-shot">
+                🪂 Darvozabon ustidan tashlash
+              </button>
+            </div>
+            <div class="vsa-feedback" id="vsa-feedback">Zarba turini tanlang!</div>
+          </div>
+        </div>
+
+        <!-- H2H LIVE SIMULATION ARENA -->
+        <div id="h2h-arena" class="game-arena-overlay hidden">
+          <div class="arena-header">
+            <div class="arena-title">
+              <span class="arena-icon">🏟️</span>
+              <h3>H2H JONLI UCHRASHUV</h3>
+            </div>
+            <div class="h2h-match-clock" id="h2h-clock">⏱️ 00'</div>
+            <div class="h2h-scoreline">
+              <span class="h2h-team-name" id="h2h-user-team-name">MENING TARKIBIM</span>
+              <span class="h2h-score" id="h2h-score">0 - 0</span>
+              <span class="h2h-team-name" id="h2h-opponent-team-name">MANCHESTER CITY</span>
+            </div>
+            <button class="btn-close-arena" id="btn-close-h2h">✕ Chiqish</button>
+          </div>
+
+          <div class="h2h-stage">
+            <!-- 2D Tactical Radar Pitch -->
+            <div class="h2h-radar-pitch">
+              <div class="radar-line r-center"></div>
+              <div class="radar-line r-circle"></div>
+              <div class="radar-ball" id="h2h-radar-ball">⚽</div>
+              <div class="radar-players user-dots" id="radar-user-dots"></div>
+              <div class="radar-players opp-dots" id="radar-opp-dots"></div>
+            </div>
+
+            <!-- Tactical Controls -->
+            <div class="h2h-tactics-bar">
+              <button class="tactic-btn" data-tactic="def">🛡️ Himoya</button>
+              <button class="tactic-btn active" data-tactic="bal">⚖️ Balans</button>
+              <button class="tactic-btn" data-tactic="att">⚡ Hujum</button>
+            </div>
+
+            <!-- Live Uzbek Commentary Box -->
+            <div class="h2h-commentary-box" id="h2h-commentary-feed">
+              <div class="comm-item">📢 Hakam hushtagi chalindi! Uchrashuv boshlandi!</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- 5. BOZOR (TRANSFER MARKET) -->
+      <section id="view-market" class="view-section">
+        <div class="section-title-wrap">
+          <h2>🏪 TRANSFER BOZORI</h2>
+          <span class="subtitle-text">Istalgan yulduz o'yinchini sotib oling yoki ortiqcha o'yinchilaringizni soting!</span>
+        </div>
+
+        <!-- Filter & Search Controls -->
+        <div class="market-filter-bar">
+          <input type="text" id="market-search" class="search-input" placeholder="🔍 O'yinchi yoki klub nomi...">
+          
+          <select id="market-pos-filter" class="custom-select">
+            <option value="ALL">Barcha pozitsiyalar</option>
+            <option value="ATT">Hujumchilar (ST, LW, RW)</option>
+            <option value="MID">Yarim himoya (CAM, CM, CDM)</option>
+            <option value="DEF">Himoyachilar (CB, LB, RB)</option>
+            <option value="GK">Darvozabon (GK)</option>
+          </select>
+
+          <select id="market-tier-filter" class="custom-select">
+            <option value="ALL">Barcha toifalar</option>
+            <option value="TOTY">TOTY Yulduzlar</option>
+            <option value="ICON">Afsonalar (Icons)</option>
+            <option value="UZB_HERO">O'zbekiston Qahramonlari</option>
+            <option value="GOLD">Oltin Elita</option>
+          </select>
+        </div>
+
+        <div class="market-grid" id="market-cards-grid">
+          <!-- Populated by JS -->
+        </div>
+      </section>
+
+      <!-- 6. SOVG'ALAR & OMAD CHARXPALAGI (LUCKY SPIN & REWARDS) -->
+      <section id="view-rewards" class="view-section">
+        <div class="section-title-wrap">
+          <h2>🎁 KUNDALIK SOVG'ALAR VA OMAD CHARXPALAGI</h2>
+          <span class="subtitle-text">Cheksiz bepul sovg'alar — har kuni bepul aylantiring!</span>
+        </div>
+
+        <div class="wheel-stage-container">
+          <div class="wheel-wrapper">
+            <div class="wheel-pointer">▼</div>
+            <canvas id="lucky-wheel-canvas" width="340" height="340"></canvas>
+            <button class="wheel-center-btn" id="btn-spin-wheel">
+              <span>AYLANTIR</span>
+            </button>
+          </div>
+          <div class="spin-info">
+            <h3 id="wheel-status-text">Bugungi bepul aylanishga tayyormisiz?</h3>
+            <p>1,000,000 tanga, 10,000 FP yoki 101+ Icon yutib olish imkoniyati!</p>
+            <button class="btn btn-accent btn-lg" id="btn-spin-wheel-alt">
+              🎯 Bepul Aylantirish!
+            </button>
+          </div>
+        </div>
+
+        <!-- Full Quests List -->
+        <div class="section-title-wrap" style="margin-top: 30px;">
+          <h3>📋 BARCHA KUNDALIK VAZIFALAR</h3>
+        </div>
+        <div class="quests-full-list" id="quests-full-list">
+          <!-- Populated by JS -->
+        </div>
+      </section>
+
+    </main>
+
+    <!-- Global Walkout Pack Reveal Modal (EA FC Cinematic) -->
+    <div id="walkout-modal" class="walkout-modal hidden">
+      <div class="walkout-overlay"></div>
+      <div class="walkout-lights"></div>
+      
+      <!-- Sequence steps -->
+      <div class="walkout-cinematic">
+        <!-- Step 1: Nation Flag & Position teaser -->
+        <div class="walkout-teaser-step hidden" id="wo-teaser">
+          <div class="teaser-flag" id="wo-flag">🇺🇿</div>
+          <div class="teaser-pos" id="wo-pos">ST</div>
+          <div class="teaser-club" id="wo-club">AS ROMA</div>
+        </div>
+
+        <!-- Step 2: Dramatic 3D Card Reveal -->
+        <div class="walkout-card-stage" id="wo-card-stage">
+          <!-- Real 3D Interactive Card gets injected here -->
+        </div>
+
+        <div class="walkout-actions" id="wo-actions">
+          <button class="btn btn-primary btn-lg" id="btn-claim-card">
+            ✅ Tarkibga Qo'shish
+          </button>
+          <button class="btn btn-secondary btn-lg" id="btn-sell-card">
+            🪙 Sotish (<span id="wo-sell-price">500,000</span>)
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Player Details / Upgrade Modal -->
+    <div id="player-modal" class="player-modal hidden">
+      <div class="modal-backdrop" id="player-modal-backdrop"></div>
+      <div class="modal-dialog">
+        <button class="modal-close-btn" id="btn-close-player-modal">✕</button>
+        <div class="player-modal-body" id="player-modal-content">
+          <!-- Populated by JS -->
+        </div>
+      </div>
+    </div>
+
+    <!-- Universal Toast Notification -->
+    <div id="app-toast" class="toast-container hidden">
+      <div class="toast-card">
+        <span class="toast-icon" id="toast-icon">✨</span>
+        <span class="toast-msg" id="toast-msg">Xabarnoma</span>
+      </div>
+    </div>
+
+    <!-- Bottom Navigation Bar (Mobile-first EA FC style) -->
+    <nav class="bottom-nav">
+      <button class="nav-item active" data-view="view-home">
+        <span class="nav-icon">🏠</span>
+        <span class="nav-label">Asosiy</span>
+      </button>
+      <button class="nav-item" data-view="view-squad">
+        <span class="nav-icon">🛡️</span>
+        <span class="nav-label">Tarkib</span>
+      </button>
+      <button class="nav-item" data-view="view-packs">
+        <span class="nav-icon">📦</span>
+        <span class="nav-label">Paketlar</span>
+      </button>
+      <button class="nav-item" data-view="view-matches">
+        <span class="nav-icon">🎮</span>
+        <span class="nav-label">O'yinlar</span>
+      </button>
+      <button class="nav-item" data-view="view-market">
+        <span class="nav-icon">🏪</span>
+        <span class="nav-label">Bozor</span>
+      </button>
+      <button class="nav-item" data-view="view-rewards">
+        <span class="nav-icon">🎁</span>
+        <span class="nav-label">Sovg'alar</span>
+      </button>
+    </nav>
+
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>
